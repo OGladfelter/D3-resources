@@ -44,11 +44,6 @@ function drawBeeswarm() {
             .attr("transform", `translate(0, ${height})`)
             .call(d3.axisBottom(x).ticks(tickCount).tickSizeOuter(0));
 
-        // add Y axis
-        const y = d3.scaleLinear()
-            .range([ 0, height ])
-            .domain([-1,1]);
-
         xScale = d3.scaleLinear()
             .range([0, width])
             .domain(d3.extent(data, function(d) { return d.daysAfterMidtermsAnnounced; }));
@@ -61,15 +56,16 @@ function drawBeeswarm() {
                 return xScale(d.daysAfterMidtermsAnnounced);  // This is the desired position
             }).strength(2))  // Increase velocity
             .force("y", d3.forceY((height / 2)))  // // Apply positioning force to push nodes towards center along Y axis
-            .force("collide", d3.forceCollide(10)) // Apply collision force with radius of 9 - keeps nodes centers 9 pixels apart
+            .force("collide", d3.forceCollide(circleRadius + 1)) // Apply collision force to keep nodes centers 9 pixels apart
             .stop();  // Stop simulation from starting automatically
 
         // Manually run simulation
         for (let i = 0; i < data.length; ++i) {
-            simulation.tick(15);
+            simulation.tick(5);
         }
 
         const tooltip = d3.select("#tooltip");
+        const tooltip2 = d3.select("#tooltip2");
 
         svg.selectAll(".announcedCircle")
             .data(data)
@@ -84,18 +80,27 @@ function drawBeeswarm() {
             .style('opacity', 0.7)
             .attr("stroke", "black")
             .on('mouseover', function(event, d) {
-                d3.select(this).style('stroke-width', '2px').attr("r", 10);
+                d3.select(this).style('stroke-width', '2px').attr("r", circleRadius + 2);
                 tooltip
                     .html(d.candidate + ' announced ' + d.announced + ', ' + Math.abs(d.daysAfterMidtermsAnnounced) + ' days ' + (d.daysAfterMidtermsAnnounced > 0 ? ' after ' : ' before ') + 'midterms')
                     .style('left', event.pageX / window.innerWidth <= 0.5 ? d.x + 40 + 'px' : d.x - tooltip.node().getBoundingClientRect().width + 25 + 'px')
                     .style('top', d.y + 50 + 'px')
                     .transition()
-                    .duration(250)
+                    .duration(500)
+                    .style('opacity', 0.95);
+            })
+            .on('click', function(event, d) {
+                tooltip2
+                    .html(d.candidate + ' announced ' + d.announced + ', ' + Math.abs(d.daysAfterMidtermsAnnounced) + ' days ' + (d.daysAfterMidtermsAnnounced > 0 ? ' after ' : ' before ') + 'midterms')
+                    .style('left', event.pageX / window.innerWidth <= 0.5 ? d.x + 40 + 'px' : d.x - tooltip.node().getBoundingClientRect().width + 25 + 'px')
+                    .style('top', d.y + 50 + 'px')
+                    .transition()
+                    .duration(500)
                     .style('opacity', 0.95);
             })
             .on('mouseout', function() {
-                d3.select(this).style('stroke-width', '1px').attr("r", 8);
-                tooltip.transition().duration(250).style('opacity', 0);
+                d3.select(this).style('stroke-width', '1px').attr("r", circleRadius);
+                tooltip.transition().duration(500).style('opacity', 0);
             });
 
         svg.append('text')
