@@ -14,7 +14,7 @@ function drawLineChart(containerId, dataset, color) {
         width = window.innerWidth * 0.4 - margin.left - margin.right;
     }
 
-    height = 400 - margin.top - margin.bottom;
+    height = window.innerWidth * 0.33 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#" + containerId)
