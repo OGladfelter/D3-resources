@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Choropleth map</title>
+    
+    <!-- load style sheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- load d3.js and map data -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+    <script src="data/ohio.json"></script>
+</head>
+<body>
+    <h2>Choropleth map</h2>
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- filters -->
+    <!-- <div class="filterSection">
+        <h2>Filters</h3>
+        <label for="varSelect">Counties shaded by </label>
+        <select onchange="updateMap(this.value)" id="varSelect">
+            <option value='population'>population</option>
+            <option value='GrowthRate'>growth rate</option>
+            <option value='drugOverdoseRate'>drug overdose rate</option>
+        </select>
+    </div> -->
+    
+    <!-- state map -->
+    <div id="map" class="map">
+        <div class="filterSection">
+            <span>Counties shaded by </span>
+            <select onchange="updateMap(this.value)">
+                <option value='population'>population</option>
+                <option value='GrowthRate'>growth rate</option>
+                <option value='drugOverdoseRate'>drug overdose rate</option>
+                <option value='NaloxoneRate'>naloxone administration rate</option>
+                <option value='suicideRate'>suicides</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- scatterplot -->
+        <div class="column left">
+            <div id="scatterplot" class="chartContainer">
+                <div class="filterSection chartFilters">
+                    <span>Showing the relationship between </span>
+                    <select id="scatterplotXAxisUpdater">
+                        <option value='population'>population</option>
+                        <option value='GrowthRate' selected>growth</option>
+                        <option value='drugOverdoseRate'>drug overdose</option>
+                        <option value='NaloxoneRate'>naloxone administration</option>
+                        <option value='suicideRate'>suicides</option>
+                    </select>
+                    <span> and </span>
+                    <select id="scatterplotYAxisUpdater">
+                        <option value='population'>population</option>
+                        <option value='GrowthRate'>growth</option>
+                        <option value='drugOverdoseRate' selected>drug overdose</option>
+                        <option value='NaloxoneRate'>naloxone administration</option>
+                        <option value='suicideRate'>suicides</option>
+                    </select>
+                    <br><br>
+                    <span>Circles sized by</span>
+                    <select id="scatterplotRadiusUpdater">
+                        <option value='nothing'>-</option>
+                        <option value='population' selected>population</option>
+                        <option value='GrowthRate'>growth</option>
+                        <option value='drugOverdoseRate'>drug overdose</option>
+                        <option value='NaloxoneRate'>naloxone administration</option>
+                        <option value='suicideRate'>suicides</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- lineplot -->
+        <div class="column right">
+            <div id="lineplot" class="chartContainer">
+                <div class="filterSection chartFilters">
+                    <span>Tracking </span>
+                    <select id="lineplotUpdater">
+                        <option value='drugOverdoseRate'>drug overdoses rate</option>
+                        <option value='NaloxoneRate'>naloxone administration rate</option>
+                    </select>
+                    <span> over time</span>
+                    <br><br>
+                    <span>Highlighting </span>
+                    <select id="countySelect" onchange="lineplotHighlighter(this.value)">
+                        <option value='-'>-</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
