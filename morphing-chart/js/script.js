@@ -162,6 +162,7 @@ function convertToLollipop(event) {
     // TODO; Next steps
     // sort the y-axis to go from shortest to longest campaign length
     // add ability to flip back and forth from the original cleveland dot plot. This should be a new function.
+    // add tool tip tip help with interpretability 
 }
 
 function main() {
