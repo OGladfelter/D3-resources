@@ -130,9 +130,13 @@ function switchChart() {
     if (lineChart1DisplayStatus == 'block') {
         document.getElementById("lineChart2").style.display = 'block';
         document.getElementById("lineChart").style.display = 'none';
+        document.getElementById("yearInHeader").innerHTML = '2022';
+        document.getElementById("buttonToSwitch").innerHTML = 'Switch to 2021 mileage';
     } else {
         document.getElementById("lineChart2").style.display = 'none';
         document.getElementById("lineChart").style.display = 'block';
+        document.getElementById("yearInHeader").innerHTML = '2021';
+        document.getElementById("buttonToSwitch").innerHTML = 'Switch to 2022 mileage';
     }
 }
 

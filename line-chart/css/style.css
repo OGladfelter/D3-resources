@@ -43,8 +43,7 @@ body {
 
 .entry {
     width: 75%;
-    margin: auto;
-    margin-bottom: 10vh;
+    margin: 5vh auto 15vh auto;
 }
 article {
     text-align: left;
