@@ -33,7 +33,7 @@ d3.csv("data/data.csv", function(data) {
 
     drawLineplot(data);
 
-    // filter to data from 2020
+    // filter to 2020 data
     data = data.filter(d => d.year == 2020);
 
     drawMap(data);
@@ -69,9 +69,9 @@ function drawMap(data) {
     const mapContainer = document.getElementById("map");
 
     // set the dimensions and margins of the map
-    if (screen.width < 600){ // user is on mobile
+    if (screen.width < 600) { // user is on mobile
         var margin = {top: 10, right: 10, bottom: 10, left: 10};
-    } else{ // user is on computer or tablet
+    } else { // user is on computer or tablet
         var margin = {top: 10, right: 10, bottom: 10, left: 10};
     }
     width = mapContainer.offsetWidth - margin.left - margin.right,
@@ -85,7 +85,7 @@ function drawMap(data) {
         .attr("height", height);
     var g = svg.append("g");
 
-    // set projection
+    // set projection for the map
     var projection = d3.geoAlbers()
         .scale(10000) // zoom in extent (1 is min)
         .rotate([82.695556,0]) // longitude
@@ -142,7 +142,9 @@ function drawMap(data) {
             .cells(5)
             .orient('vertical')
             .scale(colorScale)
-            .labelFormat(".2s");
+            .labelFormat(".2s")
+            .title("Legend created with d3-legend by Susie Lu")
+            .titleWidth(150);
 
         svg.select(".legendLinear").call(legendLinear);
 }
