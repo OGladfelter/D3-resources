@@ -3,7 +3,7 @@ const primaryColorDark = '#0006b8'; // high end of map, bars, and older ages in 
 const primaryColorMedium = '#2A6ADA'; 
 const mobile = window.innerWidth < 600;
 
-function lollipop() {
+function clevelandDotPlot() {
 
     const margin = {top: 10, right: 30, bottom: 50, left: 120};
     let box = document.getElementById('lollipop');
@@ -24,11 +24,12 @@ function lollipop() {
         data.forEach(function(d) {
             d.daysUntilConventionAnnounced = +d.daysUntilConventionAnnounced;
             d.daysUntilConventionSuspended = +d.daysUntilConventionSuspended;
+            d.campaignLength = +d.campaignLength;
         })
         data = data.slice().sort((a, b) => d3.ascending(a.daysUntilConventionAnnounced, b.daysUntilConventionAnnounced))
 
         // add X axis
-        const x = d3.scaleLinear()
+        const xScale = d3.scaleLinear()
             .domain(
                 [
                     d3.min(data, function(d) { return d.daysUntilConventionSuspended }),
@@ -39,39 +40,18 @@ function lollipop() {
 
         svg.append("g")
             .attr("class", "axis")
+            .attr("id", "xAxis")
             .attr("transform", `translate(0, ${height})`)
-            .call(d3.axisBottom(x).ticks(5).tickSizeOuter(0));
+            .call(d3.axisBottom(xScale).ticks(5).tickSizeOuter(0));
 
-        // user can mouse over any where on this rect to get x-axis value on mouse position
+        // rect boundary
         svg.append('rect')
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', width)
             .attr('height', height)
             .attr('stroke', 'black')
-            .attr('fill', 'white')
-            .on('mousemove', function(event) {
-                const selectedDaysValue = x.invert(d3.pointer(event)[0]);
-                const matchingCandidates = data.filter(d => d.daysUntilConventionAnnounced > selectedDaysValue & d.daysUntilConventionSuspended < selectedDaysValue);
-                // move vertical line to follow mouse cursor
-                verticalLine
-                    .attr("x1", function(d) { return x(selectedDaysValue); })
-                    .attr("x2", function(d) { return x(selectedDaysValue); })
-            });
-        
-        // get days between today and mid-August, when the convention may be
-        const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
-        const thisDate = new Date();
-        const conventionDate = new Date(2024, 8, 14); // this is just a guess for now, needs updated later
-        const daysTillConvention = Math.round(Math.abs((thisDate - conventionDate) / oneDay));
-        
-        // draw a vertical line
-        const verticalLine = svg.append("line")
-            .attr("x1", function(d) { return x(daysTillConvention); })
-            .attr("x2", function(d) { return x(daysTillConvention); })
-            .attr("y1", function(d) { return 0; })
-            .attr("y2", function(d) { return height; })
-            .attr("stroke", "gray");
+            .attr('fill', 'none');
 
         // add Y axis
         const y = d3.scaleBand()
@@ -86,12 +66,13 @@ function lollipop() {
                 .style("transform", `translate(-${margin.left-2}px, 0`);
 
         // Lines
-        svg.selectAll("myline")
+        svg.selectAll("campaignLengthLine")
             .data(data)
             .enter()
             .append("line")
-            .attr("x1", function(d) { return x(d.daysUntilConventionAnnounced); })
-            .attr("x2", function(d) { return x(d.daysUntilConventionSuspended); })
+            .attr("class", "campaignLengthLine")
+            .attr("x1", function(d) { return xScale(d.daysUntilConventionAnnounced); })
+            .attr("x2", function(d) { return xScale(d.daysUntilConventionSuspended); })
             .attr("y1", function(d) { return y(d.candidate); })
             .attr("y2", function(d) { return y(d.candidate); })
             .attr("stroke", "black");
@@ -101,7 +82,9 @@ function lollipop() {
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", function(d) { return x(d.daysUntilConventionAnnounced); })
+            .attr("class", "announcedCircle")
+            .attr("x2", function(d) { return xScale(d.daysUntilConventionSuspended); })
+            .attr("cx", function(d) { return xScale(d.daysUntilConventionAnnounced); })
             .attr("cy", function(d) { return y(d.candidate); })
             .attr("r", 5) 
             .style("fill", primaryColorMedium)
@@ -111,7 +94,8 @@ function lollipop() {
             .data(data)
             .enter()
             .append("circle")
-            .attr("cx", function(d) { return x(d.daysUntilConventionSuspended); })
+            .attr("class", "suspendedCircle")
+            .attr("cx", function(d) { return xScale(d.daysUntilConventionSuspended); })
             .attr("cy", function(d) { return y(d.candidate); })
             .attr("r", 5) 
             .style("fill", primaryColorMedium)
@@ -124,11 +108,45 @@ function lollipop() {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Number of days until party convention candidate announced & suspended campaign"); 
+
+        const clickableText = document.getElementById("clickMe");
+        clickableText.addEventListener("click", convertToLollipop, false);
+        clickableText.data = data; // pass dataset to conversion function as a parameter. Otherwise we'd have to re-read the data, which would be inefficient
     });
 }
 
+function convertToLollipop(event) {
+
+    const data = event.currentTarget.data; // 
+
+    // step 0 - I copy + pasted this from the above function. But we should be able to re-use already defined vars. So that's an improvement for later.
+    const margin = {top: 10, right: 30, bottom: 50, left: 120};
+    let box = document.getElementById('lollipop');
+    let width = box.offsetWidth - margin.left - margin.right;
+    const height = window.innerHeight - margin.top - margin.bottom;
+
+    // step 1 - access everything from the original chart
+    // we need the axes and data points
+    const announcedCircles = d3.selectAll(".announcedCircle"); // we'll probably just want to hide these
+    const suspendedCircles = d3.selectAll(".suspendedCircle"); // this will become the lollipop
+    const lengthLines = d3.selectAll(".campaignLengthLine"); // this will be part of the lollipop
+
+    // let's also grab the x axis. The complication here is we have the x-axis in 'reverse' for the cleveland dot plot, but we want to switch it for the lollipop
+    const xScale = d3.scaleLinear() // since we are changing the xScale completely, we just create a new one, rather than re-use old
+            .domain(d3.extent(data, function(d) { return d.campaignLength; }))
+            .range([0, width]);
+    const xAxis = d3.select("#xAxis"); // grab original xAxis
+    xAxis.call(d3.axisBottom(xScale).ticks(5).tickSizeOuter(0)); // update xAxis
+
+    // to do next:
+    // 1. move suspendedCircles to new x position
+    // 2. hide / remove announced circles, since we only need one circle. but keep for converting back?
+    // 3. move lines
+    // 4. add ability to flip back to original cleveland dot plot. new function?
+}
+
 function main() {
-    lollipop();
+    clevelandDotPlot();
 }
 
 main();
