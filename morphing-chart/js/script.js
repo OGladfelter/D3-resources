@@ -83,7 +83,6 @@ function clevelandDotPlot() {
             .enter()
             .append("circle")
             .attr("class", "announcedCircle")
-            .attr("x2", function(d) { return xScale(d.daysUntilConventionSuspended); })
             .attr("cx", function(d) { return xScale(d.daysUntilConventionAnnounced); })
             .attr("cy", function(d) { return y(d.candidate); })
             .attr("r", 5) 
@@ -101,8 +100,9 @@ function clevelandDotPlot() {
             .style("fill", primaryColorMedium)
             .attr("stroke", "black");
 
-        // y-axis label
+        // x-axis label
         svg.append("text")
+            .attr("id", "xAxisLabel")
             .attr("y", height + 25)
             .attr("x", width / 2)
             .attr("dy", "1em")
@@ -116,6 +116,8 @@ function clevelandDotPlot() {
 }
 
 function convertToLollipop(event) {
+
+    const duration = 2000;
 
     const data = event.currentTarget.data; // 
 
@@ -138,11 +140,28 @@ function convertToLollipop(event) {
     const xAxis = d3.select("#xAxis"); // grab original xAxis
     xAxis.call(d3.axisBottom(xScale).ticks(5).tickSizeOuter(0)); // update xAxis
 
-    // to do next:
-    // 1. move suspendedCircles to new x position
+    // Move suspendedCircles to new x position. these circles already have the desired y position, so we just need to update their x value
+    suspendedCircles
+        .transition().duration(duration)
+        .attr("cx", function(d) { return xScale(d.campaignLength); });
+
     // 2. hide / remove announced circles, since we only need one circle. but keep for converting back?
-    // 3. move lines
-    // 4. add ability to flip back to original cleveland dot plot. new function?
+    announcedCircles
+        .transition().duration(duration)
+        .style('opacity', 0)
+        .attr("r", 0); // I didn't really know what else to do lol
+
+    // adjust lines. Again the y values stay the same, we just update x values.
+    lengthLines
+            .transition().duration(duration)
+            .attr("x1", 0)
+            .attr("x2", function(d) { return xScale(d.campaignLength); });
+
+    document.getElementById("xAxisLabel").innerHTML = "Campaign length (days)";
+
+    // TODO; Next steps
+    // sort the y-axis to go from shortest to longest campaign length
+    // add ability to flip back and forth from the original cleveland dot plot. This should be a new function.
 }
 
 function main() {
