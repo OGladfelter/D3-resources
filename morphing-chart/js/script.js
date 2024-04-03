@@ -5,7 +5,7 @@ const mobile = window.innerWidth < 600;
 
 function lollipop() {
 
-    const margin = {top: 10, right: 30, bottom: 30, left: 120};
+    const margin = {top: 10, right: 30, bottom: 50, left: 120};
     let box = document.getElementById('lollipop');
     let width = box.offsetWidth - margin.left - margin.right;
     const height = window.innerHeight - margin.top - margin.bottom;
@@ -116,6 +116,14 @@ function lollipop() {
             .attr("r", 5) 
             .style("fill", primaryColorMedium)
             .attr("stroke", "black");
+
+        // y-axis label
+        svg.append("text")
+            .attr("y", height + 25)
+            .attr("x", width / 2)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Number of days until party convention candidate announced & suspended campaign"); 
     });
 }
 
