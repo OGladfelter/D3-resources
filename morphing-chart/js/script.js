@@ -4,14 +4,11 @@ const primaryColorMedium = '#2A6ADA';
 const mobile = window.innerWidth < 600;
 
 function lollipop() {
-    const colorOlder = primaryColorDark;
-    const colorYounger = primaryColorLight;
-    const colorBothAgeGroups = primaryColorMedium;
 
     const margin = {top: 10, right: 30, bottom: 30, left: 120};
     let box = document.getElementById('lollipop');
     let width = box.offsetWidth - margin.left - margin.right;
-    const height = window.innerHeight * 2 - margin.top - margin.bottom;
+    const height = window.innerHeight - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#lollipop")
@@ -56,7 +53,6 @@ function lollipop() {
             .on('mousemove', function(event) {
                 const selectedDaysValue = x.invert(d3.pointer(event)[0]);
                 const matchingCandidates = data.filter(d => d.daysUntilConventionAnnounced > selectedDaysValue & d.daysUntilConventionSuspended < selectedDaysValue);
-                console.log(matchingCandidates.length);
                 // move vertical line to follow mouse cursor
                 verticalLine
                     .attr("x1", function(d) { return x(selectedDaysValue); })
@@ -68,8 +64,6 @@ function lollipop() {
         const thisDate = new Date();
         const conventionDate = new Date(2024, 8, 14); // this is just a guess for now, needs updated later
         const daysTillConvention = Math.round(Math.abs((thisDate - conventionDate) / oneDay));
-
-        console.log(daysTillConvention)
         
         // draw a vertical line
         const verticalLine = svg.append("line")
@@ -110,7 +104,7 @@ function lollipop() {
             .attr("cx", function(d) { return x(d.daysUntilConventionAnnounced); })
             .attr("cy", function(d) { return y(d.candidate); })
             .attr("r", 5) 
-            .style("fill", colorBothAgeGroups)
+            .style("fill", primaryColorMedium)
             .attr("stroke", "black");
         // Announced circles
         svg.selectAll("suspendedCircle")
@@ -120,7 +114,7 @@ function lollipop() {
             .attr("cx", function(d) { return x(d.daysUntilConventionSuspended); })
             .attr("cy", function(d) { return y(d.candidate); })
             .attr("r", 5) 
-            .style("fill", colorBothAgeGroups)
+            .style("fill", primaryColorMedium)
             .attr("stroke", "black");
     });
 }
