@@ -11,7 +11,7 @@ function lineChart() {
     if (mobile) {
         width = window.innerWidth * 0.9 - margin.left - margin.right;
     } else {
-        width = window.innerWidth * 0.5 - margin.left - margin.right;
+        width = window.innerWidth * 0.4 - margin.left - margin.right;
     }
 
     height = 400 - margin.top - margin.bottom;
@@ -133,11 +133,26 @@ function switchChart() {
         document.getElementById("yearInHeader").innerHTML = '2022';
         document.getElementById("buttonToSwitch").innerHTML = 'Switch to 2021 mileage';
     } else {
-        document.getElementById("lineChart2").style.display = 'none';
-        document.getElementById("lineChart").style.display = 'block';
-        document.getElementById("yearInHeader").innerHTML = '2021';
-        document.getElementById("buttonToSwitch").innerHTML = 'Switch to 2022 mileage';
+        showOnly2021();
     }
+}
+
+function showBothCharts() {
+    document.getElementById("lineChart2").style.display = 'inline-block';
+    document.getElementById("lineChart").style.display = 'inline-block';
+    document.getElementById("buttonToSwitch").style.display = 'none';
+    document.getElementById("buttonToShowBoth").style.display = 'none';
+    document.getElementById("buttonToReset").style.display = 'inline-block';
+}
+
+function showOnly2021() {
+    document.getElementById("lineChart2").style.display = 'none';
+    document.getElementById("lineChart").style.display = 'block';
+    document.getElementById("yearInHeader").innerHTML = '2021';
+    document.getElementById("buttonToSwitch").innerHTML = 'Switch to 2022 mileage';
+    document.getElementById("buttonToSwitch").style.display = 'inline-block';
+    document.getElementById("buttonToShowBoth").style.display = 'inline-block';
+    document.getElementById("buttonToReset").style.display = 'none';
 }
 
 function main() {
