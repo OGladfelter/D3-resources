@@ -1,0 +1,379 @@
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+    line-height: 160%; 
+    font-size: 16px;  
+    margin: 0;  
+    z-index:1;
+    background-color: rgb(250,250,250);
+    font-family: Georgia, serif;
+}
+
+.title-container {
+    height: 100vh;
+    position: relative;
+    text-align: left;
+    margin-left: 30px;
+}
+  
+.title-info {
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.entry {
+    width: 75%;
+    margin: auto;
+    margin-bottom: 25vh;
+}
+article {
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+
+a:link { color: #141DFF; text-decoration: none;}
+a:visited{ color: #141DFF; }
+a:hover {text-decoration: underline; background-color: #98ffff;}
+
+p, span { font-size: 20px; }
+span.insideHeader {
+    font-size: inherit;
+    font-family: inherit;
+    opacity: inherit;
+}
+h1 { font-size: 52px; margin: 10px 0px; font-weight: normal; line-height: 72px; font-family: Georgia, Arial; }
+h2 { text-align:center; font-size: 32px; margin: 10px 10px 0px 10px; font-weight: bold; line-height: 38px; font-family: Arial, Georgia, serif;}
+h3 { font-size: 20px; margin: 50px 0px 5px 0px; font-weight: bold; line-height: 24px; font-family: Arial, Georgia, serif;}
+
+.byline {
+    font-size: 14px;
+}
+
+::-moz-selection { /* Code for Firefox */
+    background: #98ffff;
+    color: #0e005e;
+}
+::selection {
+    background: #98ffff;
+    color: #0e005e;
+}
+mark {
+    background-color: #98ffff7e;
+}
+
+svg {
+    user-select: none;
+}
+
+.x-axis-label, .y-axis-label {
+    font-size: 16px;
+    text-anchor: end;
+    user-select: none;
+    font-family: Arial, sans-serif;
+}
+.y-axis-label {
+    text-anchor: start;
+}
+.y-axis-sublabel {
+    font-size: 14px;
+    fill: rgb(100, 100, 100);
+}
+
+.axis {
+    font-size: 14px;
+}
+
+.mockAxis {
+    font-size: 12px;
+    color: gray;
+}
+
+.line {
+    fill: none;
+    stroke: #0024d9;
+    stroke-width: 2px;
+}
+
+.bottom-space {
+    margin-bottom: 50vh;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    min-width: 50px;
+    max-width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    background: white;
+    border: 1px black solid;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.leaflet-container {
+    background: none !important;
+}
+
+.quote {
+    position: sticky;
+    top: 45vh;
+    z-index: 999;
+    background-color: white;
+    border: 1px black solid;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.rellax-container {
+    height:300vh;
+    position: relative;
+    margin-bottom: 25vh;
+    margin-top: 25vh;
+}
+.rellax {
+    border: 2px silver solid;
+    padding: 7.5px;
+    position: absolute;
+    background-color: #273641;
+    max-width: 15vw;
+    border-radius: 10px;
+    font-weight: 400;
+    color: rgb(244, 243, 243);
+    /* transform: translateX(-50%, 0px, 0px) !important; this would turn off rellax */
+}
+
+.bold {
+    font-weight: bold;
+    font-size: 18px;
+}
+.namesContainer {
+    font-size: 16px;
+    flex-wrap: wrap;
+    display: flex;
+}
+.name {
+    flex: 1 0 33%;
+}
+.contributionsSection {
+    text-align: center;
+    width: 75%;
+    margin: auto;
+    margin-top: 30px;
+}
+.fullLine {
+    flex: 1 0 100% !important;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.buttonContainer > div {
+    display: flex; 
+    flex-basis: auto;  
+    justify-content: center;
+    flex-direction: column;
+}
+.buttonContainer > div > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.box { 
+    margin: 5px;
+}
+
+button {
+    background: white;
+    border: 1px black solid;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 7.5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: auto 2.5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; 
+}
+button:hover {
+    background: whitesmoke;
+}
+.buttonSelected {
+    background: #0007c9;
+    color: white;
+    pointer-events: none;
+}
+
+#top0, #top1, #top2, #top3, #top4, #bottom0, #bottom1, #bottom2, #bottom3, #bottom4 {
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.scrollOnTop {
+    position: relative;
+    background-color: white;
+    border: 1px black solid;
+    padding: 10px 20px;
+    width: 60%;
+    margin: auto;
+    margin-top: 90vh;
+    margin-bottom: 20vh;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.miniChartContainer {
+    display:flex; align-items:center; justify-content:center;
+}
+.lollipopContainer {
+    position:sticky; top:0%;
+}
+.lollipopTextContainer {
+    width:90%;
+}
+
+sup { 
+    vertical-align: top; 
+    color: #141DFF;
+    font-size: 16px;
+    line-height: 20px;
+}
+sup:hover{
+    color: #FE3C72;
+    cursor: pointer;
+}
+.footnote { 
+    font-size: 18px;
+    display: none; 
+    color: rgb(105, 105, 105);
+    text-decoration: none;
+    margin: 15px;
+}
+.footnote:hover{
+    cursor: pointer;
+}
+.mapContainer {
+    position:sticky; top:15%;
+}
+#mapLegend {
+    margin-top: 25px;
+}
+.textOnBars {
+    alignment-baseline: central;
+    fill: white;
+    pointer-events: none;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 5vh;
+    max-height: 100vh;
+    background-color: #001ba1;
+    color: white;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 0px;
+}
+.footerLink {
+    color: white !important;
+}
+.footerLink:hover {text-decoration: none; background-color: #001ba1;}
+
+.mobilePhoto {
+    display: none;
+}
+
+/* mobile CSS */
+@media (min-width: 320px) and (max-width: 999px) {
+
+    #mapLegend {
+        margin-top: 0px;
+    }
+    .title-info {
+        width: 95%;
+        left: 2.5%;
+    }
+    .entry { 
+        width: 95%;
+        margin-bottom: 25vh;
+    }
+    article {
+        width: 90%;
+    }
+    .contributionsSection {
+        width: 95%;
+    }
+    .rellax-container {
+        display: none;
+    }
+    .scrollOnTop {
+        width: 90%;
+    }
+    .lollipopContainer {
+        width:100%; float:initial; position:sticky; top:10%;
+    }
+    .lollipopTextContainer {
+        width:100%;
+    }
+    .lollipopText {
+        background-color: white;
+        border: 1px black solid;
+        padding: 10px;
+        width: 100%;
+        margin: auto;
+        margin-bottom: 50vh;
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+    .buttonContainer > div {
+        flex-basis: 40%;  
+    }
+    button:hover {
+        background: #0007c9;
+    }
+    .name {
+        flex: 1 0 100%;
+        text-align: center;
+    }
+    .mobilePhoto {
+        display: block;
+    }
+    .desktopPhoto {
+        display: none;
+    }
+    
+}
+
+@media (min-width: 320px) and (max-width: 600px) {
+    .miniChartContainer {
+        display:none;
+    }
+}
