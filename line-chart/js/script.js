@@ -25,7 +25,7 @@ function lineChart() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     //Read the data
-    d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
+    d3.csv("data/2021_mileage.csv",
 
     // When reading the csv, I must format variables:
     function(d){
@@ -87,7 +87,7 @@ function lineChart2() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     //Read the data
-    d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
+    d3.csv("data/2022_mileage.csv",
 
     // When reading the csv, I must format variables:
     function(d){
