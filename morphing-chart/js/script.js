@@ -26,7 +26,7 @@ function clevelandDotPlot() {
             d.daysUntilConventionSuspended = +d.daysUntilConventionSuspended;
             d.campaignLength = +d.campaignLength;
         })
-        data = data.slice().sort((a, b) => d3.ascending(a.daysUntilConventionAnnounced, b.daysUntilConventionAnnounced))
+        //data = data.slice().sort((a, b) => d3.ascending(a.daysUntilConventionAnnounced, b.daysUntilConventionAnnounced));
 
         // add X axis
         const xScale = d3.scaleLinear()
@@ -36,7 +36,7 @@ function clevelandDotPlot() {
                     d3.max(data, function(d) { return d.daysUntilConventionAnnounced })
                 ]
             )
-            .range([width, 0]);
+            .range([width, 0]); // notice this is in 'reverse' since the x-axis is a count down to zero
 
         svg.append("g")
             .attr("class", "axis")
@@ -56,14 +56,15 @@ function clevelandDotPlot() {
         // add Y axis
         const y = d3.scaleBand()
             .range([ 0, height ])
-            .domain(data.map(function(d) { return d.candidate; }))
+            .domain(data.sort((a, b) => d3.ascending(a.daysUntilConventionAnnounced, b.daysUntilConventionAnnounced)).map(function(d) { return d.candidate; }))
             .padding(0.9);
         svg.append("g")
+            .attr("id", "yAxis")
             .attr("class", "axis")
             .call(d3.axisLeft(y).tickSizeOuter(0).tickSize(0))
             .selectAll("text")
-                .style("text-anchor", "start")
-                .style("transform", `translate(-${margin.left-2}px, 0`);
+            .style("text-anchor", "start")
+            .style("transform", `translate(-${margin.left-2}px, 0`);
 
         // Lines
         svg.selectAll("campaignLengthLine")
@@ -133,12 +134,21 @@ function convertToLollipop(event) {
     const suspendedCircles = d3.selectAll(".suspendedCircle"); // this will become the lollipop
     const lengthLines = d3.selectAll(".campaignLengthLine"); // this will be part of the lollipop
 
-    // let's also grab the x axis. The complication here is we have the x-axis in 'reverse' for the cleveland dot plot, but we want to switch it for the lollipop
-    const xScale = d3.scaleLinear() // since we are changing the xScale completely, we just create a new one, rather than re-use old
+    // NEW SCALES AND ADJUST AXES
+    // create new x scale
+    const xScale = d3.scaleLinear()
             .domain(d3.extent(data, function(d) { return d.campaignLength; }))
             .range([0, width]);
-    const xAxis = d3.select("#xAxis"); // grab original xAxis
-    xAxis.call(d3.axisBottom(xScale).ticks(5).tickSizeOuter(0)); // update xAxis
+    const xAxis = d3.select("#xAxis"); // grab original x-axis
+    xAxis.call(d3.axisBottom(xScale)); // and update .axisBottom() with new scale
+
+    // create new y scale
+    // const yScale = d3.scaleBand()
+    //         .range([ 0, height ])
+    //         .domain(data.sort((a, b) => d3.ascending(a.campaignLength, b.campaignLength)).map(function(d) { return d.candidate; }))
+    //         .padding(0.9);
+    // const yAxis = d3.select("#yAxis"); // grab original y-axis
+    // yAxis.call(d3.axisLeft(yScale)); // and update it
 
     // Move suspendedCircles to new x position. these circles already have the desired y position, so we just need to update their x value
     suspendedCircles
@@ -161,6 +171,11 @@ function convertToLollipop(event) {
 
     // TODO; Next steps
     // sort the y-axis to go from shortest to longest campaign length
+    const y = d3.scaleBand()
+            .range([ 0, height ])
+            .domain(data.map(function(d) { return d.candidate; }))
+            .padding(0.9);
+        
     // add ability to flip back and forth from the original cleveland dot plot. This should be a new function.
     // add tool tip tip help with interpretability 
 }

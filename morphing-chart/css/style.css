@@ -44,9 +44,10 @@ article {
 }
 
 
-a:link { color: #141DFF; text-decoration: none;}
-a:visited{ color: #141DFF; }
-a:hover {text-decoration: underline; background-color: #98ffff;}
+.a { color: blue }
+.a:link { color: #141DFF; text-decoration: none;}
+.a:visited{ color: #141DFF; }
+.a:hover {cursor: pointer; text-decoration: underline; background-color: #98ffff;}
 
 p, span { font-size: 20px; }
 span.insideHeader {
