@@ -18,7 +18,7 @@ body {
 }
 
 .title-container {
-    height: 100vh;
+    height: 50vh;
     position: relative;
     text-align: left;
     margin-left: 30px;
@@ -126,113 +126,18 @@ div.tooltip {
     opacity: 0;
 }
 
-.leaflet-container {
-    background: none !important;
-}
-
-.quote {
-    position: sticky;
-    top: 45vh;
-    z-index: 999;
+.fixedToBottomRight {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
     background-color: white;
     border: 1px black solid;
-    border-radius: 10px;
-    display: inline-block;
-    padding: 10px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-}
-
-.rellax-container {
-    height:300vh;
-    position: relative;
-    margin-bottom: 25vh;
-    margin-top: 25vh;
-}
-.rellax {
-    border: 2px silver solid;
-    padding: 7.5px;
-    position: absolute;
-    background-color: #273641;
-    max-width: 15vw;
-    border-radius: 10px;
-    font-weight: 400;
-    color: rgb(244, 243, 243);
-    /* transform: translateX(-50%, 0px, 0px) !important; this would turn off rellax */
-}
-
-.bold {
-    font-weight: bold;
-    font-size: 18px;
-}
-.namesContainer {
-    font-size: 16px;
-    flex-wrap: wrap;
-    display: flex;
-}
-.name {
-    flex: 1 0 33%;
-}
-.contributionsSection {
-    text-align: center;
-    width: 75%;
-    margin: auto;
-    margin-top: 30px;
-}
-.fullLine {
-    flex: 1 0 100% !important;
-}
-
-.buttonContainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-.buttonContainer > div {
-    display: flex; 
-    flex-basis: auto;  
-    justify-content: center;
-    flex-direction: column;
-}
-.buttonContainer > div > div {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-}
-.box { 
-    margin: 5px;
-}
-
-button {
-    background: white;
-    border: 1px black solid;
     border-radius: 5px;
-    color: black;
-    padding: 5px 7.5px;
-    cursor: pointer;
+    padding: 5px 10px;
     font-size: 16px;
-    margin: auto 2.5px;
-    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; 
-}
-button:hover {
-    background: whitesmoke;
-}
-.buttonSelected {
-    background: #0007c9;
-    color: white;
-    pointer-events: none;
-}
-
-#top0, #top1, #top2, #top3, #top4, #bottom0, #bottom1, #bottom2, #bottom3, #bottom4 {
-    font-weight: bold;
-    pointer-events: none;
+    cursor: pointer;
 }
 
 .scrollOnTop {

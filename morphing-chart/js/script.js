@@ -113,6 +113,10 @@ function clevelandDotPlot() {
         const clickableText = document.getElementById("clickMe");
         clickableText.onclick = convertToLollipop;
         clickableText.data = data; // pass dataset to conversion function as a parameter. Otherwise we'd have to re-read the data, which would be inefficient
+   
+        const fixedClickableDiv = document.getElementById("fixedClickMe");
+        fixedClickableDiv.onclick = convertToLollipop;
+        fixedClickableDiv.data = data;
     });
 }
 
@@ -177,6 +181,12 @@ function convertToLollipop(event) {
     const clickableText = document.getElementById("clickMe");
     clickableText.onclick = convertToDotPlot;
     clickableText.data = data; // pass dataset to conversion function as a parameter. Otherwise we'd have to re-read the data, which would be inefficient
+    clickableText.innerHTML = "Click me to switch to dot plot";
+
+    const fixedClickableDiv = document.getElementById("fixedClickMe");
+    fixedClickableDiv.onclick = convertToDotPlot;
+    fixedClickableDiv.data = data;
+    fixedClickableDiv.innerHTML = "Switch to dot plot";
 }
 
 function convertToDotPlot(event) {
@@ -248,6 +258,12 @@ function convertToDotPlot(event) {
     const clickableText = document.getElementById("clickMe");
     clickableText.onclick = convertToLollipop;
     clickableText.data = data; // pass dataset to conversion function as a parameter. Otherwise we'd have to re-read the data, which would be inefficient
+    clickableText.innerHTML = "Click me to switch to lollipop";
+
+    const fixedClickableDiv = document.getElementById("fixedClickMe");
+    fixedClickableDiv.onclick = convertToLollipop;
+    fixedClickableDiv.data = data;
+    fixedClickableDiv.innerHTML = "Switch to lollipop";
 }
 
 function main() {
