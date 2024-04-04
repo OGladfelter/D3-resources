@@ -2,6 +2,7 @@ const primaryColorLight = 'hsl(197, 97%, 66%)'; // low end of map, bars, and you
 const primaryColorDark = '#0006b8'; // high end of map, bars, and older ages in age analysis
 const primaryColorMedium = '#2A6ADA'; 
 const mobile = window.innerWidth < 600;
+const circleRadius = 5;
 
 function clevelandDotPlot() {
 
@@ -86,7 +87,7 @@ function clevelandDotPlot() {
             .attr("class", "announcedCircle")
             .attr("cx", function(d) { return xScale(d.daysUntilConventionAnnounced); })
             .attr("cy", function(d) { return yScale(d.candidate); })
-            .attr("r", 5) 
+            .attr("r", circleRadius) 
             .style("fill", primaryColorMedium)
             .attr("stroke", "black");
         // Announced circles
@@ -97,7 +98,7 @@ function clevelandDotPlot() {
             .attr("class", "suspendedCircle")
             .attr("cx", function(d) { return xScale(d.daysUntilConventionSuspended); })
             .attr("cy", function(d) { return yScale(d.candidate); })
-            .attr("r", 5) 
+            .attr("r", circleRadius) 
             .style("fill", primaryColorMedium)
             .attr("stroke", "black");
 
@@ -160,11 +161,11 @@ function convertToLollipop(event) {
         .attr("cx", function(d) { return xScale(d.campaignLength); })
         .attr("cy", function(d) { return yScale(d.candidate); });
 
-    // 2. hide / remove announced circles, since we only need one circle. but keep for converting back?
+    // hide / remove announced circles, since we only need one circle for a lollipop. but keep for converting back?
     announcedCircles
         .transition().duration(duration)
-        .style('opacity', 0)
-        .attr("r", 0); // I didn't really know what else to do lol
+        .attr("cx", 0)
+        .attr("r", 0);
 
     // adjust lines, by once again updating the x and y values
     lengthLines
@@ -235,11 +236,10 @@ function convertToDotPlot(event) {
         .attr("cx", function(d) { return xScale(d.daysUntilConventionSuspended); })
         .attr("cy", function(d) { return yScale(d.candidate); });
 
-    // 2. hide / remove announced circles, since we only need one circle. but keep for converting back?
+    // refill and resize announced circles, move to new cx and cy positions
     announcedCircles
         .transition().duration(duration)
-        .style('opacity', 1)
-        .attr("r", 5)
+        .attr("r", circleRadius)
         .attr("cx", function(d) { return xScale(d.daysUntilConventionAnnounced); })
         .attr("cy", function(d) { return yScale(d.candidate); });
 
